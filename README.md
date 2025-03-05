@@ -1,54 +1,85 @@
-# React + TypeScript + Vite
+# Mockerview - 면접 연습 모바일 웹 애플리케이션
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 프로젝트 소개
 
-Currently, two official plugins are available:
+모바일 친화적인 웹 애플리케이션은 개인이 독립적으로 면접 기술을 연습할 수 있도록 설계되었습니다. 사용자는 맞춤형 면접 질문을 생성하고, 무작위 면접 프롬프트를 받으며, 자기 검토를 위해 응답을 녹음할 수 있습니다.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 기술 스택
 
-## Expanding the ESLint configuration
+-   **프론트엔드**: React
+-   **언어**: TypeScript
+-   **UI 라이브러리**: Material-UI (MUI)
+-   **상태 관리**: 로컬 스토리지
+-   **배포**: Vercel
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 주요 기능
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+### 1. 질문 목록 페이지
+
+-   맞춤형 면접 질문 생성
+-   질문을 로컬 스토리지에 저장
+-   기존 질문 수정 및 삭제
+-   향후 데이터베이스 통합 준비
+
+### 2. 랜덤 질문 페이지
+
+-   사용자가 생성한 질문 목록에서 무작위 면접 질문 생성
+-   인터랙티브 "질문하기" 버튼
+-   면접 질문의 음성 시뮬레이션
+-   면접 응답 녹음
+-   질문 키와 함께 로컬 스토리지에 녹음 저장
+
+### 3. 녹음 기록 페이지
+
+-   이전 면접 질문 확인
+-   녹음된 응답 재생
+-   녹음된 면접 삭제 옵션
+
+## 계획된 개선 사항
+
+-   지속적인 질문 저장을 위한 데이터베이스 통합
+-   사용자 인증
+-   고급 녹음 및 재생 기능
+
+## 로컬 개발 설정
+
+### 필수 조건
+
+-   Node.js (v18+)
+-   npm 또는 yarn
+
+### 설치 단계
+
+1. 저장소 클론
+2. 종속성 설치
+
+```bash
+npm install
+# 또는
+yarn install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+3. 개발 서버 시작
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```bash
+npm start
+# 또는
+yarn start
 ```
+
+## 배포
+
+Vercel을 통한 간편하고 빠른 호스팅
+
+## 향후 로드맵
+
+-   [ ] 데이터베이스 백엔드 구현
+-   [ ] 사용자 인증 추가
+-   [ ] 녹음 기능 개선
+-   [ ] UI/UX 향상
+
+## 개발자
+
+_열정적인 단일 개발자에 의해 개발 및 유지 관리_
+
+## 라이선스
