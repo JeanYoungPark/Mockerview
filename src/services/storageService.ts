@@ -2,8 +2,8 @@
 import { v4 as uuidv4 } from "uuid";
 import { Question, Recording } from "../types";
 
-const QUESTIONS_KEY = "interview_questions";
-const RECORDINGS_KEY = "interview_recordings";
+const QUESTIONS_KEY = import.meta.env.VITE_QUESTIONS_KEY || "";
+const RECORDINGS_KEY = import.meta.env.VITE_RECORDINGS_KEY || "";
 
 export const getQuestions = (): Question[] => {
     const questions = localStorage.getItem(QUESTIONS_KEY);

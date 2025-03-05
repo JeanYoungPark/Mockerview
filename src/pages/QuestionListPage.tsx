@@ -65,14 +65,14 @@ const QuestionListPage: React.FC = () => {
     };
 
     return (
-        <Container maxWidth='md'>
+        <Container>
             <Box py={4}>
                 <Typography variant='h4' component='h1' gutterBottom align='center'>
                     면접 질문 리스트
                 </Typography>
 
                 <Paper elevation={3} sx={{ p: 3, mb: 4 }}>
-                    <Box display='flex' mb={2}>
+                    <Box display='flex'>
                         <TextField
                             fullWidth
                             label='새 면접 질문'
@@ -81,7 +81,12 @@ const QuestionListPage: React.FC = () => {
                             onChange={(e) => setNewQuestion(e.target.value)}
                             onKeyPress={(e) => e.key === "Enter" && handleAddQuestion()}
                         />
-                        <Button variant='contained' color='primary' startIcon={<Add />} onClick={handleAddQuestion} sx={{ ml: 1 }}>
+                        <Button
+                            variant='contained'
+                            color='primary'
+                            startIcon={<Add />}
+                            onClick={handleAddQuestion}
+                            sx={{ ml: 1, whiteSpace: "nowrap", minWIdth: "auto" }}>
                             추가
                         </Button>
                     </Box>
