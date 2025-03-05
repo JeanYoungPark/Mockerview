@@ -1,35 +1,42 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// App.tsx
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import Layout from "./components/Layout";
+import QuestionListPage from "./pages/QuestionListPage";
+import RandomQuestionPage from "./pages/RandomQuestionPage";
+import RecordingsPage from "./pages/RecordingsPage";
 
-function App() {
-  const [count, setCount] = useState(0)
+const theme = createTheme({
+    palette: {
+        primary: {
+            main: "#1976d2",
+        },
+        secondary: {
+            main: "#dc004e",
+        },
+    },
+    typography: {
+        fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    },
+});
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+const App: React.FC = () => {
+    return (
+        <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <BrowserRouter>
+                <Layout>
+                    <Routes>
+                        <Route path='/' element={<QuestionListPage />} />
+                        <Route path='/random' element={<RandomQuestionPage />} />
+                        <Route path='/recordings' element={<RecordingsPage />} />
+                    </Routes>
+                </Layout>
+            </BrowserRouter>
+        </ThemeProvider>
+    );
+};
 
-export default App
+export default App;
