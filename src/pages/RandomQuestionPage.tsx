@@ -35,6 +35,7 @@ const RandomQuestionPage: React.FC = () => {
         setIsLoading(true);
 
         const questions = getQuestions();
+        console.log(questions.length);
         if (questions.length === 0) {
             showMessage("질문이 없습니다. 먼저 질문을 추가해주세요.");
             navigate("/");

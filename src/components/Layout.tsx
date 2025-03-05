@@ -47,7 +47,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     };
 
     return (
-        <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+        <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh", width: "100vw" }}>
             <AppBar position='static'>
                 <Toolbar>
                     {isMobile && (
@@ -57,7 +57,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                     )}
 
                     <Typography variant='h6' sx={{ flexGrow: 1 }}>
-                        면접 연습 앱
+                        Mockerview
                     </Typography>
 
                     {!isMobile && (
@@ -71,6 +71,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                                     sx={{
                                         mx: 1,
                                         fontWeight: location.pathname === item.path ? "bold" : "normal",
+                                        borderRadius: 0,
                                         borderBottom: location.pathname === item.path ? "2px solid white" : "none",
                                     }}>
                                     {item.text}
