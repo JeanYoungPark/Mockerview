@@ -1,23 +1,20 @@
 // pages/RandomQuestionPage.tsx
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import { Container, Typography, Box, Button, Paper, CircularProgress, Alert, Snackbar } from "@mui/material";
 import { PlayArrow, Mic, Stop, Replay } from "@mui/icons-material";
 import { getRandomQuestion, getQuestions, addRecording } from "../services/storageService";
 import { Question } from "../types";
 
 const RandomQuestionPage: React.FC = () => {
-    const navigate = useNavigate();
+    const utteranceRef = useRef(new SpeechSynthesisUtterance());
     const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isAsking, setIsAsking] = useState<boolean>(false);
     const [isRecording, setIsRecording] = useState<boolean>(false);
     const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
-    const [recordedChunks, setRecordedChunks] = useState<Blob[]>([]);
+    // const [recordedChunks, setRecordedChunks] = useState<Blob[]>([]);
     const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
     const [snackbarMessage, setSnackbarMessage] = useState<string>("");
-
-    const audioRef = useRef<HTMLAudioElement | null>(null);
 
     useEffect(() => {
         // 음성 합성 API 초기화
@@ -35,10 +32,10 @@ const RandomQuestionPage: React.FC = () => {
         setIsLoading(true);
 
         const questions = getQuestions();
-        console.log(questions.length);
+
         if (questions.length === 0) {
             showMessage("질문이 없습니다. 먼저 질문을 추가해주세요.");
-            navigate("/");
+            // navigate("/");
             setIsLoading(false);
             return;
         }
@@ -54,14 +51,23 @@ const RandomQuestionPage: React.FC = () => {
         setIsAsking(true);
 
         // 음성 합성 사용
-        const utterance = new SpeechSynthesisUtterance(currentQuestion.text);
-        utterance.lang = "ko-KR"; // 한국어로 설정
+        window.speechSynthesis.cancel();
+        utteranceRef.current.text = currentQuestion.text;
+        utteranceRef.current.lang = "ko-KR";
 
-        utterance.onend = () => {
+        utteranceRef.current.onend = () => {
             setIsAsking(false);
         };
 
-        window.speechSynthesis.speak(utterance);
+        window.speechSynthesis.speak(utteranceRef.current);
+    };
+
+    const stopSpeakQuestion = () => {
+        if (!currentQuestion) return;
+        setIsAsking(false);
+
+        // 음성 중지
+        window.speechSynthesis.cancel();
     };
 
     const startRecording = async () => {
@@ -93,8 +99,9 @@ const RandomQuestionPage: React.FC = () => {
                 stream.getTracks().forEach((track) => track.stop());
             };
 
+            // console.log(chunks);
             setMediaRecorder(recorder);
-            setRecordedChunks(chunks);
+            // setRecordedChunks(chunks);
 
             recorder.start();
             setIsRecording(true);
@@ -119,6 +126,12 @@ const RandomQuestionPage: React.FC = () => {
         }
     };
 
+    const handleStopActionClick = () => {
+        if (isAsking && !isRecording) {
+            stopSpeakQuestion();
+        }
+    };
+
     const handleRecordClick = () => {
         if (isRecording) {
             stopRecording();
@@ -127,9 +140,14 @@ const RandomQuestionPage: React.FC = () => {
         }
     };
 
-    const handleNextQuestion = () => {
-        setCurrentQuestion(null);
-    };
+    // const handleNextQuestion = () => {
+    //     setCurrentQuestion(null);
+    //     handleActionClick();
+    // };
+
+    useEffect(() => {
+        speakQuestion();
+    }, [currentQuestion]);
 
     return (
         <Container maxWidth='md'>
@@ -179,7 +197,7 @@ const RandomQuestionPage: React.FC = () => {
                                     variant='contained'
                                     color={isAsking ? "secondary" : "primary"}
                                     startIcon={isAsking ? <Stop /> : <PlayArrow />}
-                                    onClick={handleActionClick}
+                                    onClick={isAsking ? handleStopActionClick : handleActionClick}
                                     disabled={isRecording}>
                                     {isAsking ? "듣기 중지" : "다시 듣기"}
                                 </Button>
@@ -193,7 +211,7 @@ const RandomQuestionPage: React.FC = () => {
                                     {isRecording ? "녹음 중지" : "녹음하기"}
                                 </Button>
 
-                                <Button variant='outlined' startIcon={<Replay />} onClick={handleNextQuestion} disabled={isAsking || isRecording}>
+                                <Button variant='outlined' startIcon={<Replay />} onClick={fetchRandomQuestion} disabled={isAsking || isRecording}>
                                     다음 질문
                                 </Button>
                             </Box>
@@ -202,7 +220,7 @@ const RandomQuestionPage: React.FC = () => {
                 </Paper>
             </Box>
 
-            <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={() => setSnackbarOpen(false)}>
+            <Snackbar open={snackbarOpen} autoHideDuration={6000}>
                 <Alert onClose={() => setSnackbarOpen(false)} severity='info' sx={{ width: "100%" }}>
                     {snackbarMessage}
                 </Alert>
