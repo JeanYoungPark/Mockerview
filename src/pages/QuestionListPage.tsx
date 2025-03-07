@@ -1,4 +1,3 @@
-// pages/QuestionListPage.tsx
 import React, { useState, useEffect } from "react";
 import {
     Container,
@@ -9,7 +8,6 @@ import {
     List,
     ListItem,
     ListItemText,
-    ListItemSecondaryAction,
     IconButton,
     Dialog,
     DialogTitle,
@@ -79,7 +77,7 @@ const QuestionListPage: React.FC = () => {
                             variant='outlined'
                             value={newQuestion}
                             onChange={(e) => setNewQuestion(e.target.value)}
-                            onKeyPress={(e) => e.key === "Enter" && handleAddQuestion()}
+                            onKeyDown={(e) => e.key === "Enter" && handleAddQuestion()}
                         />
                         <Button
                             variant='contained'
@@ -100,16 +98,20 @@ const QuestionListPage: React.FC = () => {
                     <Paper elevation={3} sx={{ p: 2 }}>
                         <List>
                             {questions.map((question) => (
-                                <ListItem key={question.id} divider>
+                                <ListItem
+                                    key={question.id}
+                                    secondaryAction={
+                                        <Box>
+                                            <IconButton edge='end' aria-label='edit' onClick={() => handleEditClick(question)}>
+                                                <Edit />
+                                            </IconButton>
+                                            <IconButton edge='end' aria-label='delete' onClick={() => handleDeleteQuestion(question.id)}>
+                                                <Delete />
+                                            </IconButton>
+                                        </Box>
+                                    }
+                                    divider>
                                     <ListItemText primary={question.text} />
-                                    <ListItemSecondaryAction>
-                                        <IconButton edge='end' aria-label='edit' onClick={() => handleEditClick(question)}>
-                                            <Edit />
-                                        </IconButton>
-                                        <IconButton edge='end' aria-label='delete' onClick={() => handleDeleteQuestion(question.id)}>
-                                            <Delete />
-                                        </IconButton>
-                                    </ListItemSecondaryAction>
                                 </ListItem>
                             ))}
                         </List>
