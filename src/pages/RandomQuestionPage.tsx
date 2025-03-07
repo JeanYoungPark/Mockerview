@@ -12,7 +12,6 @@ const RandomQuestionPage: React.FC = () => {
     const [isAsking, setIsAsking] = useState<boolean>(false);
     const [isRecording, setIsRecording] = useState<boolean>(false);
     const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
-    // const [recordedChunks, setRecordedChunks] = useState<Blob[]>([]);
     const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
     const [snackbarMessage, setSnackbarMessage] = useState<string>("");
 
@@ -73,7 +72,25 @@ const RandomQuestionPage: React.FC = () => {
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
 
-            const recorder = new MediaRecorder(stream);
+            // MediaRecorder 지원 여부 확인
+            if (!window.MediaRecorder) {
+                showMessage("이 브라우저는 녹음 기능을 지원하지 않습니다.");
+                return;
+            }
+
+            // 브라우저가 지원하는 MIME 타입 확인
+            let mimeType = "audio/webm";
+            if (MediaRecorder.isTypeSupported("audio/mp4")) {
+                mimeType = "audio/mp4";
+            } else if (MediaRecorder.isTypeSupported("audio/webm")) {
+                mimeType = "audio/webm";
+            } else {
+                // 기본 MIME 타입 사용 (브라우저가 결정)
+                mimeType = "";
+            }
+
+            const options = mimeType ? { mimeType } : undefined;
+            const recorder = new MediaRecorder(stream, options);
             const chunks: Blob[] = [];
 
             recorder.ondataavailable = (e) => {
