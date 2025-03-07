@@ -35,7 +35,6 @@ const RandomQuestionPage: React.FC = () => {
 
         if (questions.length === 0) {
             showMessage("질문이 없습니다. 먼저 질문을 추가해주세요.");
-            // navigate("/");
             setIsLoading(false);
             return;
         }
@@ -99,9 +98,7 @@ const RandomQuestionPage: React.FC = () => {
                 stream.getTracks().forEach((track) => track.stop());
             };
 
-            // console.log(chunks);
             setMediaRecorder(recorder);
-            // setRecordedChunks(chunks);
 
             recorder.start();
             setIsRecording(true);
@@ -139,11 +136,6 @@ const RandomQuestionPage: React.FC = () => {
             startRecording();
         }
     };
-
-    // const handleNextQuestion = () => {
-    //     setCurrentQuestion(null);
-    //     handleActionClick();
-    // };
 
     useEffect(() => {
         speakQuestion();
