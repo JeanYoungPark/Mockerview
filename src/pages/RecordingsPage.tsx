@@ -1,20 +1,6 @@
 // pages/RecordingsPage.tsx
 import React, { useState, useEffect, useRef } from "react";
-import {
-    Container,
-    Typography,
-    Box,
-    List,
-    ListItem,
-    ListItemText,
-    ListItemSecondaryAction,
-    IconButton,
-    Paper,
-    Divider,
-    Card,
-    CardContent,
-    CardActions,
-} from "@mui/material";
+import { Container, Typography, Box, List, ListItem, IconButton, Paper, Divider, Card, CardContent, CardActions } from "@mui/material";
 import { Delete, PlayArrow, Pause } from "@mui/icons-material";
 import { getRecordings, getQuestions, deleteRecording } from "../services/storageService";
 import { Recording, Question, RecordingGroupByDate } from "../types";
@@ -31,6 +17,18 @@ const RecordingsPage: React.FC = () => {
         // 오디오 요소 생성
         const audio = new Audio();
         audio.onended = () => setPlayingId(null);
+
+        // iOS Safari를 위한 추가 설정
+        audio.controls = true; // 내부적으로만 사용됨
+        audio.preload = "metadata"; // 성능 개선
+
+        // 오류 처리 추가
+        audio.onerror = (e) => {
+            console.error("오디오 오류:", e);
+            setPlayingId(null);
+            // alert("오디오 재생 중 오류가 발생했습니다.");
+        };
+
         audioRef.current = audio;
 
         return () => {
@@ -55,7 +53,7 @@ const RecordingsPage: React.FC = () => {
         setQuestions(questionsMap);
     };
 
-    const handlePlayRecording = (recording: Recording) => {
+    const handlePlayRecording = async (recording: Recording) => {
         if (!audioRef.current) return;
 
         if (playingId === recording.id) {
@@ -67,6 +65,16 @@ const RecordingsPage: React.FC = () => {
             }
 
             audioRef.current.src = recording.audio;
+            audioRef.current.load();
+
+            try {
+                await audioRef.current.play();
+                setPlayingId(recording.id);
+            } catch (error) {
+                console.error("오디오 재생 실패:", error);
+                // alert("오디오 재생에 실패했습니다. 브라우저가 이 오디오 형식을 지원하지 않을 수 있습니다.");
+            }
+
             audioRef.current.play();
             setPlayingId(recording.id);
         }
