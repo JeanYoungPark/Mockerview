@@ -60,7 +60,6 @@ export const addRecording = (questionId: string, audioBlob: Blob): Promise<Recor
                 createdAt: new Date().toISOString(),
             };
 
-            console.log(newRecording);
             localStorage.setItem(RECORDINGS_KEY, JSON.stringify([...recordings, newRecording]));
             resolve(newRecording);
         };
