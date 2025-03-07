@@ -10,11 +10,11 @@ import {
     IconButton,
     Drawer,
     List,
-    ListItem,
     ListItemIcon,
     ListItemText,
     useMediaQuery,
     Theme,
+    ListItemButton,
 } from "@mui/material";
 import { Menu as MenuIcon, FormatListBulleted, QuestionAnswer, MicNone } from "@mui/icons-material";
 
@@ -86,10 +86,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 <Box sx={{ width: 250 }} role='presentation'>
                     <List>
                         {menuItems.map((item) => (
-                            <ListItem button key={item.text} onClick={() => handleNavigate(item.path)} selected={location.pathname === item.path}>
+                            <ListItemButton key={item.text} onClick={() => handleNavigate(item.path)} selected={location.pathname === item.path}>
                                 <ListItemIcon>{item.icon}</ListItemIcon>
                                 <ListItemText primary={item.text} />
-                            </ListItem>
+                            </ListItemButton>
                         ))}
                     </List>
                 </Box>
