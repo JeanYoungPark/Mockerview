@@ -100,8 +100,8 @@ const RandomQuestionPage: React.FC = () => {
             };
 
             recorder.onstop = async () => {
-                const audioBlob = new Blob(chunks, { type: "audio/webm" });
-
+                const audioBlob = new Blob(chunks, { type: mimeType });
+                console.log("audioBlob:", audioBlob);
                 try {
                     if (currentQuestion) {
                         await addRecording(currentQuestion.id, audioBlob);
