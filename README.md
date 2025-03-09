@@ -62,9 +62,9 @@ yarn install
 3. 개발 서버 시작
 
 ```bash
-npm start
+npm run dev
 # 또는
-yarn start
+yarn run dev
 ```
 
 ## 배포
@@ -78,8 +78,12 @@ Vercel을 통한 간편하고 빠른 호스팅
 -   [ ] 녹음 기능 개선
 -   [ ] UI/UX 향상
 
-## 개발자
-
-_열정적인 단일 개발자에 의해 개발 및 유지 관리_
-
 ## 라이선스
+
+## 회고
+
+이번 프로젝트를 진행하면서 여러 가지 배운 점들을 정리해보았습니다.
+
+-   [SpeechSynthesisUtterance](https://thread-gorgonzola-1b0.notion.site/SpeechSynthesisUtterance-1afc13ea807d8065949dc745a98a0ce4)
+-   [MediaRecorder](https://thread-gorgonzola-1b0.notion.site/MediaRecorder-1afc13ea807d80fd8183df21c0b10f41)
+-   [맥북과 아이폰 디버깅](https://thread-gorgonzola-1b0.notion.site/1afc13ea807d80efb935f8590ed0003f)
